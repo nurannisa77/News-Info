@@ -63,18 +63,26 @@ class _NewsPortalScreenState extends State<NewsPortalScreen> {
                               final endpoint = provider.newsPortal!.endpoints?[index];
                               final portalName = endpoint?.name ?? "";
                               final paths = endpoint?.paths;
-                              return Container(
-                                height: 82,
-                                width: 82,
-                                padding: const EdgeInsets.all(16.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                      ListPortalConstant.portalLogo(portalName),
+                              return GestureDetector(
+                                onTap: () {
+                                  if (paths != null && paths.isNotEmpty) {
+                                    provider.setSelectedPath(paths[0]);
+                                    Navigator.pushNamed(context, NameRoutes.newsRoute);
+                                  }
+                                },
+                                child: Container(
+                                  height: 82,
+                                  width: 82,
+                                  padding: const EdgeInsets.all(16.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        ListPortalConstant.portalLogo(portalName),
+                                      ),
+                                      fit: BoxFit.cover,
                                     ),
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               );

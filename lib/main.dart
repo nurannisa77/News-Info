@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:news_info/constant/names_route_constant.dart';
 import 'package:news_info/screen/home/news_portal_screen.dart';
 import 'package:news_info/screen/home/provider/news_portal_provider.dart';
-
+import 'package:news_info/screen/news/news_screen.dart';
+import 'package:news_info/screen/news/provider/news_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NewsPortalProvider()),
+        ChangeNotifierProvider(create: (_) => NewsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           NameRoutes.initRoute: (context) => const NewsPortalScreen(),
           NameRoutes.homeRoute: (context) => const NewsPortalScreen(),
+          NameRoutes.newsRoute: (context) => const NewsScreen(),
         },
       ),
     );
