@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:news_info/constant/names_route_constant.dart';
+import 'package:news_info/screen/home/news_portal_screen.dart';
+import 'package:news_info/screen/home/provider/news_portal_provider.dart';
+
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NewsPortalProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: NameRoutes.initRoute,
+        routes: {
+          NameRoutes.initRoute: (context) => const NewsPortalScreen(),
+          NameRoutes.homeRoute: (context) => const NewsPortalScreen(),
+        },
       ),
     );
   }
