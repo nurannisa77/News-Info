@@ -22,7 +22,7 @@ class NewsPortalProvider extends ChangeNotifier {
   Path? get selectedPath => _selectedPath;
   String? get selectedPathName => _selectedPath?.name;
 
-  Future<void> fetchNewsPortal() async {
+  Future<void> getNewsPortal() async {
     try {
       NewsPortalService newsPortalService = NewsPortalService();
       _newsPortal = await newsPortalService.getListNewsPortals();
@@ -39,13 +39,34 @@ class NewsPortalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Endpoint? getEndpointAtIndex(int index) {
+    return _newsPortal?.endpoints?[index];
+  }
+
+  String getPortalNameAtIndex(int index) {
+    final endpoint = getEndpointAtIndex(index);
+    return endpoint?.name ?? "";
+  }
+
+  List<Path>? getPathsAtIndex(int index) {
+    final endpoint = getEndpointAtIndex(index);
+    return endpoint?.paths;
+  }
+
   List<String> getPathsNames() {
     List<String> pathsNames = [];
+    Set<String> uniquePaths = {};
+
     _newsPortal?.endpoints?.forEach((endpoint) {
       endpoint.paths?.forEach((path) {
-        pathsNames.add(path.name ?? '');
+        if (!uniquePaths.contains(path.name)) {
+          pathsNames.add(path.name ?? '');
+          uniquePaths.add(path.name ?? '');
+        }
       });
     });
+
+    pathsNames.sort();
     return pathsNames;
   }
 }

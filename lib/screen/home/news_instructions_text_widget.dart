@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:news_info/constant/text_style_constant.dart';
 
 class NewsInstructionText extends StatelessWidget {
+  const NewsInstructionText({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 26.0),
-      child: Text(
-        "Pick the channels that interests you",
-        style: TextStyleConstant.boldText,
-        textAlign: TextAlign.center,
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
+      child: Center(
+        child: Text(
+          "Pick the channels that interests you",
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: Theme.of(context).colorScheme.background,
+              fontWeight: FontWeight.w900),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

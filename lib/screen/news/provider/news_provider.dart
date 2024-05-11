@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsProvider extends ChangeNotifier {
-  Future<GetNewsResponseModel> fetchNews(BuildContext context) async {
+  Future<GetNewsResponseModel> getNews(BuildContext context) async {
     final newsProvider =
         Provider.of<NewsPortalProvider>(context, listen: false);
     final selectedPath = newsProvider.selectedPath?.path;
 
-    final response = await NewsService.fetchNews(selectedPath);
+    final response = await NewsService.getNews(selectedPath);
     return GetNewsResponseModel.fromJson(response.data);
   }
 

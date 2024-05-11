@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_info/model/get_news_response_model.dart';
+import 'package:news_info/screen/news/news_alert_dialog_widget.dart';
 import 'package:news_info/screen/news/news_publish_date_widget.dart';
 import 'package:news_info/screen/news/news_thumbnail_widget.dart';
 import 'package:news_info/screen/news/news_title_widget.dart';
-import 'package:news_info/screen/news/provider/news_provider.dart';
 
 class NewsItemWidget extends StatelessWidget {
   final Post post;
@@ -12,39 +12,47 @@ class NewsItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: 8,
-      ),
-      child: GestureDetector(
-        onTap: () {
-          NewsProvider.launchURL(context, post.link);
-        },
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewsAlertDialogWidget(post: post);
+      },
+    );
+
+
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Container(
+          width: double.infinity,
+          height: 160,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            color: Theme.of(context).colorScheme.surfaceVariant,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                NewsThumbnailWidget(post: post),
-                const SizedBox(width: 8),
-                Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              NewsThumbnailWidget(post: post),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                       NewsTitleWidget(post: post),
-                      const SizedBox(height: 4),
                       NewsPublishDateWidget(post: post),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

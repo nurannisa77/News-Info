@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:news_info/constant/color_constant.dart';
-import 'package:news_info/constant/text_style_constant.dart';
 import 'package:news_info/model/get_news_response_model.dart';
 
 class NewsPublishDateWidget extends StatelessWidget {
@@ -17,13 +15,12 @@ class NewsPublishDateWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Icon(Icons.calendar_month_rounded,
-            size: 16, color: ColorConstant.greyColor),
-        const SizedBox(width: 4),
-        Text(
-          formattedDate,
-          style: TextStyleConstant.semiBold
-          ),
+        Icon(
+          Icons.calendar_month_rounded,
+          size: 16,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        Text(formattedDate, style: Theme.of(context).textTheme.labelMedium),
       ],
     );
   }
