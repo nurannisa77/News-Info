@@ -9,6 +9,7 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Latest News',
@@ -59,7 +60,7 @@ class NewsScreen extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 10,
+            itemCount: news.length,
             itemBuilder: (context, index) {
               return NewsItemWidget(post: news[index]);
             },

@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: NameRoutes.initRoute,
         routes: {
-          NameRoutes.initRoute: (context) => const NewsPortalScreen(),
+          NameRoutes.initRoute: (context) =>  CategoryScreen(),
           NameRoutes.homeRoute: (context) => const NewsPortalScreen(),
           NameRoutes.newsRoute: (context) => const NewsScreen(),
         },
