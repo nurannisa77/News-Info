@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_info/model/get_news_response_model.dart';
+import 'package:news_info/screen/bookmark/news_bookmark_widget.dart';
 import 'package:news_info/screen/news/news_description_widget.dart';
 import 'package:news_info/screen/news/news_publish_date_widget.dart';
 import 'package:news_info/screen/news/news_title_widget.dart';
@@ -20,9 +21,9 @@ class NewsAlertDialogWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            NewsTitleWidget(post: post),
+            NewsTitleWidget(post: post.title ?? ''),
             const SizedBox(height: 8),
-            NewsDescriptionWidget(post: post),
+            NewsDescriptionWidget(post: post.description ?? ''),
             const SizedBox(height: 4),
             InkWell(
               onTap: () {
@@ -37,7 +38,9 @@ class NewsAlertDialogWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            NewsPublishDateWidget(post: post),
+            NewsPublishDateWidget(post: post.pubDate ?? ''),
+            const SizedBox(height: 8),
+            NewsBookmarkWidget(post: post),
           ],
         ),
       ),

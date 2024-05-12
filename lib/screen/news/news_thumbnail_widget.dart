@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_info/model/get_news_response_model.dart';
 
 class NewsThumbnailWidget extends StatelessWidget {
-  final Post post;
+  final dynamic post;
 
   const NewsThumbnailWidget({
     super.key,
@@ -19,11 +18,11 @@ class NewsThumbnailWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         color: Theme.of(context).colorScheme.outlineVariant,
       ),
-      child: post.thumbnail != null
+      child: post != null
           ? ClipRRect(
               borderRadius: BorderRadius.circular(18),
               child: Image.network(
-                post.thumbnail ?? '',
+                post,
                 fit: BoxFit.cover,
               ),
             )

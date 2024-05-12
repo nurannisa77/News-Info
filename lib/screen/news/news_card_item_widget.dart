@@ -15,13 +15,11 @@ class NewsItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return NewsAlertDialogWidget(post: post);
-      },
-    );
-
-
+          context: context,
+          builder: (BuildContext context) {
+            return NewsAlertDialogWidget(post: post);
+          },
+        );
       },
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -36,7 +34,7 @@ class NewsItemWidget extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              NewsThumbnailWidget(post: post),
+              NewsThumbnailWidget(post: post.thumbnail ?? ''),
               const SizedBox(width: 16),
               Expanded(
                 child: Padding(
@@ -46,8 +44,8 @@ class NewsItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      NewsTitleWidget(post: post),
-                      NewsPublishDateWidget(post: post),
+                      NewsTitleWidget(post: post.title ?? ''),
+                      NewsPublishDateWidget(post: post.pubDate ?? ''),
                     ],
                   ),
                 ),

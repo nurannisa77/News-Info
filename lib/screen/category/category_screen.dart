@@ -4,10 +4,15 @@ import 'package:news_info/constant/names_route_constant.dart';
 import 'package:news_info/screen/home/provider/news_portal_provider.dart';
 import 'package:provider/provider.dart';
 
-class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({
-    super.key,
-  });
+class CategoryScreen extends StatefulWidget {
+  const CategoryScreen({Key? key}) : super(key: key);
+
+  @override
+  _CategoryScreenState createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoryScreen> {
+  String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -35,95 +40,138 @@ class CategoryScreen extends StatelessWidget {
               child: Text(provider.getErrorMessage() ?? 'Unknown Error'),
             );
           }
-          return ListView.builder(
-            itemCount: provider.newsPortal?.endpoints?.length ?? 0,
-            itemBuilder: (context, index) {
-              final endpoint = provider.getEndpointAtIndex(index);
-              final paths = provider.getPathsAtIndex(index) ?? [];
-              return Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
-                      child: Center(
-                        child: Text(
-                          endpoint?.name ?? 'Unknown Endpoint',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Search',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 16.0,
-                        mainAxisSpacing: 16.0,
-                      ),
-                      itemCount: paths.length,
-                      itemBuilder: (context, pathIndex) {
-                        final path = paths[pathIndex];
-                        return GestureDetector(
-                          onTap: () {
-                            if (paths.isNotEmpty) {
-                              provider.setSelectedPath(path);
-                              Navigator.pushNamed(
-                                context,
-                                NameRoutes.newsRoute,
-                              );
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Theme.of(context).colorScheme.surfaceVariant,
-                            ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: provider.newsPortal?.endpoints?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final endpoint = provider.getEndpointAtIndex(index);
+                    final paths = provider.getPathsAtIndex(index) ?? [];
+                    final filteredPaths = paths.where((path) {
+                      final name = ListCategoryNameConstant.categoryNewsName(
+                          path.name ?? '');
+                      return name
+                          .toLowerCase()
+                          .contains(searchQuery.toLowerCase());
+                    }).toList();
+
+                    return filteredPaths.isEmpty
+                        ? SizedBox.shrink()
+                        : Padding(
+                            padding: const EdgeInsets.all(32.0),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
-                                  width: 100,
-                                  height: 80,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.asset(
-                                      ListCategoryNameConstant
-                                          .categoryNewsImage(path.name ?? ''),
-                                      fit: BoxFit.cover,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 16.0),
+                                  child: Center(
+                                    child: Text(
+                                      (endpoint?.name ?? 'Unknown Endpoint')
+                                          .toUpperCase(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayLarge,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  ListCategoryNameConstant.categoryNewsName(
-                                      path.name ?? ''),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
+                                GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 16.0,
+                                    mainAxisSpacing: 16.0,
+                                  ),
+                                  itemCount: filteredPaths.length,
+                                  itemBuilder: (context, pathIndex) {
+                                    final path = filteredPaths[pathIndex];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (filteredPaths.isNotEmpty) {
+                                          provider.setSelectedPath(path);
+                                          Navigator.pushNamed(
+                                            context,
+                                            NameRoutes.newsRoute,
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .onSurface),
+                                              .surfaceVariant,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 100,
+                                              height: 100,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.asset(
+                                                  ListCategoryNameConstant
+                                                      .categoryNewsImage(
+                                                          path.name ?? ''),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              ListCategoryNameConstant
+                                                      .categoryNewsName(
+                                                          path.name ?? '')
+                                                  .toUpperCase(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurface),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                          );
+                  },
                 ),
-              );
-            },
+              ),
+            ],
           );
         },
       ),

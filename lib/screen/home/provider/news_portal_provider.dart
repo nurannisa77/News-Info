@@ -52,21 +52,4 @@ class NewsPortalProvider extends ChangeNotifier {
     final endpoint = getEndpointAtIndex(index);
     return endpoint?.paths;
   }
-
-  List<String> getPathsNames() {
-    List<String> pathsNames = [];
-    Set<String> uniquePaths = {};
-
-    _newsPortal?.endpoints?.forEach((endpoint) {
-      endpoint.paths?.forEach((path) {
-        if (!uniquePaths.contains(path.name)) {
-          pathsNames.add(path.name ?? '');
-          uniquePaths.add(path.name ?? '');
-        }
-      });
-    });
-
-    pathsNames.sort();
-    return pathsNames;
-  }
 }

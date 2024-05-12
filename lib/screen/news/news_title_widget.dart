@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_info/model/get_news_response_model.dart';
 
 class NewsTitleWidget extends StatelessWidget {
-  final Post post;
+  final dynamic post;
 
   const NewsTitleWidget({
     super.key,
@@ -12,7 +11,7 @@ class NewsTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      post.title ?? '',
+      post.toString(),
       style: Theme.of(context)
           .textTheme
           .bodyMedium

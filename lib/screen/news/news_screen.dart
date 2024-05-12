@@ -60,7 +60,7 @@ class NewsScreen extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: news.length,
+            itemCount: 5,
             itemBuilder: (context, index) {
               return NewsItemWidget(post: news[index]);
             },
