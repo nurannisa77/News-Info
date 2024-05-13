@@ -9,7 +9,6 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         title: Text('Latest News',
@@ -28,6 +27,21 @@ class NewsScreen extends StatelessWidget {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/chatbot');
+        },
+        tooltip: 'ChatBot',
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: Icon(
+          Icons.chat,
+          color: Theme.of(context).colorScheme.surface,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(36),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Consumer<NewsProvider>(
         builder: (context, newsProvider, _) {
           return FutureBuilder<GetNewsResponseModel>(
@@ -60,7 +74,7 @@ class NewsScreen extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: 5,
+            itemCount: news.length,
             itemBuilder: (context, index) {
               return NewsItemWidget(post: news[index]);
             },

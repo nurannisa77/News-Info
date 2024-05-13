@@ -1,17 +1,25 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_info/constant/gemini_key.dart';
 import 'package:news_info/constant/names_route_constant.dart';
+import 'package:news_info/screen/bookmark/bookmark_screen.dart';
 import 'package:news_info/screen/bookmark/provider/bookmark_provider.dart';
 import 'package:news_info/screen/category/category_screen.dart';
+import 'package:news_info/screen/chatbot/chatbot_screen.dart';
+import 'package:news_info/screen/chatbot/provider/chatbot_provider.dart';
 import 'package:news_info/screen/home/news_portal_screen.dart';
 import 'package:news_info/screen/home/provider/news_portal_provider.dart';
 import 'package:news_info/screen/news/news_screen.dart';
 import 'package:news_info/screen/news/provider/news_provider.dart';
 import 'package:news_info/widgets/bottom_navbar_widget.dart';
+import 'package:news_info/widgets/provider/bottom_navbar_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  Gemini.init(apiKey: geminiKey);
+
   runApp(const MyApp());
 }
 
@@ -25,6 +33,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NewsPortalProvider()),
         ChangeNotifierProvider(create: (_) => NewsProvider()),
         ChangeNotifierProvider(create: (_) => BookmarkProvider()),
+        ChangeNotifierProvider(create: (_) => BottomNavbarProvider()),
+        ChangeNotifierProvider(create: (_) => ChatbotProvider()),
       ],
       child: MaterialApp(
         theme: FlexThemeData.light(
@@ -44,29 +54,32 @@ class MyApp extends StatelessWidget {
           swapLegacyOnMaterial3: true,
           fontFamily: GoogleFonts.inter().fontFamily,
         ),
-        darkTheme: FlexThemeData.dark(
-          scheme: FlexScheme.flutterDash,
-          surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-          blendLevel: 13,
-          subThemesData: const FlexSubThemesData(
-            blendOnLevel: 20,
-            useTextTheme: true,
-            useM2StyleDividerInM3: true,
-            alignedDropdown: true,
-            useInputDecoratorThemeInDialogs: true,
-          ),
-          visualDensity: FlexColorScheme.comfortablePlatformDensity,
-          useMaterial3: true,
-          swapLegacyOnMaterial3: true,
-          fontFamily: GoogleFonts.inter().fontFamily,
-        ),
+        // darkTheme: FlexThemeData.dark(
+        //   scheme: FlexScheme.flutterDash,
+        //   surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+        //   blendLevel: 13,
+        //   subThemesData: const FlexSubThemesData(
+        //     blendOnLevel: 20,
+        //     useTextTheme: true,
+        //     useM2StyleDividerInM3: true,
+        //     alignedDropdown: true,
+        //     useInputDecoratorThemeInDialogs: true,
+        //   ),
+        //   visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        //   useMaterial3: true,
+        //   swapLegacyOnMaterial3: true,
+        //   fontFamily: GoogleFonts.inter().fontFamily,
+        // ),
         themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         initialRoute: NameRoutes.initRoute,
         routes: {
-          NameRoutes.initRoute: (context) => ButtomNavbarWidget(),
+          NameRoutes.initRoute: (context) => BottomNavbarWidget(),
           NameRoutes.homeRoute: (context) => const NewsPortalScreen(),
           NameRoutes.newsRoute: (context) => const NewsScreen(),
+          NameRoutes.categoryRoute: (context) => const CategoryScreen(),
+          NameRoutes.bookmarkRoute: (context) => const BookmarkScreen(),
+          NameRoutes.chatbotRoute: (context) => const ChatbotScreen(),
         },
       ),
     );

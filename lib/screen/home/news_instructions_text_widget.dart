@@ -11,7 +11,7 @@ class NewsInstructionText extends StatelessWidget {
         child: Text(
           "Pick the channels that interests you",
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: Theme.of(context).colorScheme.background,
+              color: Colors.black,
               fontWeight: FontWeight.w900),
           textAlign: TextAlign.center,
         ),

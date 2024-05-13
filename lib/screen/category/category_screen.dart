@@ -18,10 +18,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Category',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+        title: Text(
+          'News Category',
+          style: Theme.of(context).textTheme.headline6?.copyWith(
                 color: Theme.of(context).colorScheme.onPrimary,
-                fontWeight: FontWeight.w500)),
+                fontWeight: FontWeight.w500,
+              ),
+        ),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
@@ -31,7 +34,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           if (provider.isLoading) {
             Provider.of<NewsPortalProvider>(context, listen: false)
                 .getNewsPortal();
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -43,18 +46,57 @@ class _CategoryScreenState extends State<CategoryScreen> {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      searchQuery = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Search',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        searchQuery = value;
+                      });
+                    },
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Search',
+                      labelStyle: TextStyle(
+                        fontSize: 16.0,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        size: 24.0,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1.0,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        borderSide: BorderSide(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.4),
+                          width: 1.0,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -76,28 +118,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     return filteredPaths.isEmpty
                         ? SizedBox.shrink()
                         : Padding(
-                            padding: const EdgeInsets.all(32.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 8.0, horizontal: 16.0),
-                                  child: Center(
-                                    child: Text(
-                                      (endpoint?.name ?? 'Unknown Endpoint')
-                                          .toUpperCase(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge,
-                                    ),
+                                  child: Text(
+                                    (endpoint?.name ?? 'Unknown Endpoint')
+                                        .toUpperCase(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
                                 ),
                                 GridView.builder(
                                   shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
+                                  physics: NeverScrollableScrollPhysics(),
                                   gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                      SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
                                     crossAxisSpacing: 16.0,
                                     mainAxisSpacing: 16.0,
@@ -122,7 +166,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                               BorderRadius.circular(8),
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .surfaceVariant,
+                                              .surface,
                                         ),
                                         child: Column(
                                           mainAxisAlignment:
@@ -130,21 +174,38 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            SizedBox(
-                                              width: 100,
-                                              height: 100,
-                                              child: ClipRRect(
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.all(12.0),
+                                              decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                child: Image.asset(
-                                                  ListCategoryNameConstant
-                                                      .categoryNewsImage(
-                                                          path.name ?? ''),
-                                                  fit: BoxFit.cover,
-                                                ),
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surfaceVariant,
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 80,
+                                                    height: 80 ,
+                                                    child: ClipOval(
+                                                      child: Image.asset(
+                                                        ListCategoryNameConstant
+                                                            .categoryNewsImage(
+                                                                path.name ?? ''),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                ],
                                               ),
                                             ),
-                                            const SizedBox(height: 8),
                                             Text(
                                               ListCategoryNameConstant
                                                       .categoryNewsName(
@@ -152,11 +213,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                                   .toUpperCase(),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .titleMedium
+                                                  .subtitle1
                                                   ?.copyWith(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onSurface),
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurface,
+                                                    fontSize: 12,
+                                                  ),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ],
