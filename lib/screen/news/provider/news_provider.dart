@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_info/model/get_news_response_model.dart';
-import 'package:news_info/screen/home/provider/news_portal_provider.dart';
+import 'package:news_info/screen/home/provider/home_provider.dart';
 import 'package:news_info/service/news_service.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 class NewsProvider extends ChangeNotifier {
   Future<GetNewsResponseModel> getNews(BuildContext context) async {
     final newsProvider =
-        Provider.of<NewsPortalProvider>(context, listen: false);
+        Provider.of<HomeProvider>(context, listen: false);
     final selectedPath = newsProvider.selectedPath?.path;
 
     final response = await NewsService.getNews(selectedPath);

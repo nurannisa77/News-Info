@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -32,7 +33,9 @@ class DbHelper {
       },
     );
 
-    print('Database berhasil dibuat!');
+    if (kDebugMode) {
+      print('Database berhasil dibuat!');
+    }
     return db;
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_info/model/get_news_response_model.dart';
-import 'package:news_info/screen/news/news_card_item_widget.dart';
+import 'package:news_info/screen/news/widget/news_list_widget.dart';
 import 'package:news_info/screen/news/provider/news_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -11,10 +11,29 @@ class NewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Latest News',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontWeight: FontWeight.w500)),
+        title: Consumer<NewsProvider>(
+          builder: (context, newsProvider, _) {
+            return FutureBuilder<GetNewsResponseModel>(
+              future: newsProvider.getNews(context),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  final title = snapshot.data?.data?.title ?? '';
+                  return Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                  );
+                }
+              },
+            );
+          },
+        ),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
         leading: IconButton(
@@ -33,54 +52,16 @@ class NewsScreen extends StatelessWidget {
         },
         tooltip: 'ChatBot',
         backgroundColor: Theme.of(context).colorScheme.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(36),
+        ),
         child: Icon(
           Icons.chat,
           color: Theme.of(context).colorScheme.surface,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(36),
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: Consumer<NewsProvider>(
-        builder: (context, newsProvider, _) {
-          return FutureBuilder<GetNewsResponseModel>(
-            future: newsProvider.getNews(context),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              } else {
-                return _buildNewsList(context, snapshot.data?.data?.posts);
-              }
-            },
-          );
-        },
-      ),
+      body: const NewsListWidget(),
     );
-  }
-
-  Widget _buildNewsList(BuildContext context, List<Post>? news) {
-    if (news == null || news.isEmpty) {
-      return const Center(child: Text('No data available'));
-    } else {
-      return SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: news.length,
-            itemBuilder: (context, index) {
-              return NewsItemWidget(post: news[index]);
-            },
-          ),
-        ),
-      );
-    }
   }
 }

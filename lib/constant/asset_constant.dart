@@ -13,7 +13,6 @@ class AssetConstant {
   static const String portalSuaraLogo = 'assets/image/portal/portal_suara.jpg';
   static const String portalTempoLogo = 'assets/image/portal/portal_tempo.jpg';
   static const String portalTribunLogo = 'assets/image/portal/portal_tribun.jpg';
-
   static const String categoryBreakingNews = 'assets/image/category/category_breaking_news.png';
   static const String categoryPolitics = 'assets/image/category/category_politics.png';
   static const String categoryLaw = 'assets/image/category/category_law.png';
@@ -58,5 +57,4 @@ class AssetConstant {
   static const String categoryEvent = 'assets/image/category/category_event.png';
   static const String categorySuperSkor = 'assets/image/category/category_super_skor.png';
   static const String categoryLadies = 'assets/image/category/category_ladies.png';
-
 }

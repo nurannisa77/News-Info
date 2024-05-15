@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:news_info/constant/list_portal_constant.dart';
 import 'package:news_info/constant/names_route_constant.dart';
-import 'package:news_info/screen/home/news_instructions_text_widget.dart';
-import 'package:news_info/screen/home/provider/news_portal_provider.dart';
+import 'package:news_info/screen/home/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 
-class NewsPortalScreen extends StatelessWidget {
-  const NewsPortalScreen({Key? key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const NewsInstructionText(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
+              child: Center(
+                child: Text(
+                  "Pick the channels that interests you",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontWeight: FontWeight.w900),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
             Expanded(
-              child: Consumer<NewsPortalProvider>(
+              child: Consumer<HomeProvider>(
                 builder: (context, provider, _) {
                   if (provider.isLoading) {
-                    Provider.of<NewsPortalProvider>(context, listen: false)
+                    Provider.of<HomeProvider>(context, listen: false)
                         .getNewsPortal();
                     return const Center(child: CircularProgressIndicator());
                   } else if (provider.hasError()) {
@@ -41,7 +51,7 @@ class NewsPortalScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPortalGrid(NewsPortalProvider provider, BuildContext context) {
+  Widget _buildPortalGrid(HomeProvider provider, BuildContext context) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -67,11 +77,11 @@ class NewsPortalScreen extends StatelessWidget {
             width: 82,
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.background,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.8),
+                  color: Theme.of(context).colorScheme.outlineVariant.withOpacity(0.8),
                   spreadRadius: 4,
                   blurRadius: 4,
                   offset: const Offset(0, 1),

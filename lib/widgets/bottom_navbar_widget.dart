@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:news_info/screen/bookmark/bookmark_screen.dart';
 import 'package:news_info/screen/category/category_screen.dart';
-import 'package:news_info/screen/home/news_portal_screen.dart';
+import 'package:news_info/screen/home/home_screen.dart';
 import 'package:news_info/widgets/provider/bottom_navbar_provider.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavbarWidget extends StatelessWidget {
-  const BottomNavbarWidget({Key? key});
+  const BottomNavbarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,13 @@ class BottomNavbarWidget extends StatelessWidget {
       body: IndexedStack(
         index: provider.currentIndex,
         children: const [
-          NewsPortalScreen(),
+          HomeScreen(),
           CategoryScreen(),
           BookmarkScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.primary, // Default color
+        backgroundColor: Theme.of(context).colorScheme.primary,
         currentIndex: provider.currentIndex,
         onTap: (index) {
           provider.setCurrentIndex(index);

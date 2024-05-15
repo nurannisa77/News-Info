@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_info/screen/bookmark/provider/bookmark_provider.dart';
-import 'package:news_info/screen/news/news_thumbnail_widget.dart';
-import 'package:news_info/screen/news/news_title_widget.dart';
+import 'package:news_info/screen/news/widget/news_thumbnail_widget.dart';
+import 'package:news_info/screen/news/widget/news_title_widget.dart';
 import 'package:provider/provider.dart';
 
 class BookmarkScreen extends StatelessWidget {
@@ -70,7 +70,7 @@ class BookmarkScreen extends StatelessWidget {
                                         onPressed: () {
                                           Provider.of<BookmarkProvider>(context,
                                                   listen: false)
-                                              .deleteBookmark(bookmark['link']);
+                                              .deleteBookmark(bookmark['link'], context);
                                         },
                                       ),
                                     ],

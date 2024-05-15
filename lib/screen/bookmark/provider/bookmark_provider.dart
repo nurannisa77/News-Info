@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_info/db/db_helper.dart';
+import 'package:news_info/helper/db_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookmarkProvider extends ChangeNotifier {
@@ -10,16 +10,20 @@ class BookmarkProvider extends ChangeNotifier {
     _refreshBookmarkList();
   }
 
-Future<void> _refreshBookmarkList() async {
-  _bookmarkListFuture = DbHelper.instance.getBookmarks();
-  List<Map<String, dynamic>> bookmarks = await _bookmarkListFuture;
-  _bookmarkLinks = bookmarks.map((bookmark) => bookmark['link'] as String).toList();
-  notifyListeners();
-}
+  Future<void> _refreshBookmarkList() async {
+    _bookmarkListFuture = DbHelper.instance.getBookmarks();
+    List<Map<String, dynamic>> bookmarks = await _bookmarkListFuture;
+    _bookmarkLinks =
+        bookmarks.map((bookmark) => bookmark['link'] as String).toList();
+    notifyListeners();
+  }
 
-
-  Future<void> deleteBookmark(String link) async {
+  Future<void> deleteBookmark(String link, BuildContext context) async {
     await DbHelper.instance.deleteBookmark(link);
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Successfully delete from Bookmark!')),
+    );
     _refreshBookmarkList();
   }
 
@@ -39,6 +43,7 @@ Future<void> _refreshBookmarkList() async {
       'description': post.description,
       'thumbnail': post.thumbnail,
     });
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Successfully added to Bookmark!')),
     );

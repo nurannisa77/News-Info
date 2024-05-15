@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_info/model/get_news_response_model.dart';
-import 'package:news_info/screen/news/news_alert_dialog_widget.dart';
-import 'package:news_info/screen/news/news_publish_date_widget.dart';
-import 'package:news_info/screen/news/news_thumbnail_widget.dart';
-import 'package:news_info/screen/news/news_title_widget.dart';
+import 'package:news_info/screen/news/widget/news_alert_dialog_widget.dart';
+import 'package:news_info/screen/news/widget/news_publish_date_widget.dart';
+import 'package:news_info/screen/news/widget/news_thumbnail_widget.dart';
+import 'package:news_info/screen/news/widget/news_title_widget.dart';
 
 class NewsItemWidget extends StatelessWidget {
   final Post post;

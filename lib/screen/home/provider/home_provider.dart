@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:news_info/model/get_list_news_portal_response_model.dart';
 import 'package:news_info/service/list_news_portal_service.dart';
 
-class NewsPortalProvider extends ChangeNotifier {
+class HomeProvider extends ChangeNotifier {
   GetListNewsPortalResponseModel? _newsPortal;
   String? _errorMessage;
   Path? _selectedPath;
